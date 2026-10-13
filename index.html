@@ -46,6 +46,140 @@
   object-fit:contain!important;
   object-position:center center;
 }
+
+/* Tablet landscape fit: keep the original portrait proportion without making
+   the whole page taller than the viewport. Scroll the right-hand planner. */
+@media (orientation:landscape) and (min-width:621px) and (max-height:900px) {
+  html,body{height:100%;overflow:hidden}
+  body{display:flex;flex-direction:column}
+  header{flex:0 0 auto;padding:7px 15px 5px;gap:6px}
+  header h1{font-size:23px}
+  header small{font-size:9px}
+  .header-actions{gap:4px}
+  .header-actions button{font-size:11px;padding:5px 7px}
+  .shell{
+    flex:1 1 auto;min-height:0;height:auto;
+    width:100%;max-width:none;
+    grid-template-columns:minmax(0,42%) minmax(0,58%);
+    gap:10px;padding:5px 12px 6px;
+    overflow:hidden;
+  }
+  .shell>.photo-panel{min-height:0;max-height:100%;overflow-y:auto;scrollbar-width:thin}
+  .shell>.right{min-height:0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;gap:9px;padding-right:3px}
+  .panel{padding:10px;border-radius:13px}
+  .photo-panel .photo{
+    /* Preserve 482:926, but constrain height to landscape tablet viewport. */
+    width:min(100%, calc((100dvh - 145px) * 482 / 926));
+    max-height:calc(100dvh - 145px)!important;
+    height:auto!important;
+    min-height:0!important;
+    aspect-ratio:482 / 926;
+    margin:0 auto;
+  }
+  .photo-panel .photo img{width:100%;height:100%;object-fit:contain!important}
+  .photo-panel .sectionhead{margin-bottom:7px}
+  .photo-tools{justify-content:center;gap:5px;margin-top:7px}
+  .photo-tools button,.photo-tools label{padding:5px 7px;font-size:10px}
+  .sectionhead h2{font-size:19px}
+  .right-top{gap:9px}
+  .right-top .panel{padding:9px}
+  .clock{font-size:27px}
+  .weather{font-size:22px;margin-top:3px}
+  .right-top .mini{margin:5px 0}
+  .note{padding:8px}
+  .note h3{font-size:16px;margin-bottom:5px}
+  .tasklist{min-height:62px;max-height:110px}
+  .task-footer{margin-top:6px}
+  .legacy{margin-top:7px;padding-top:7px}
+  .calendar-panel .day{min-height:32px}
+  .calendar-panel .weekday div{padding:2px 0}
+  .calendar-events{margin-top:9px;padding-top:8px}
+  .calendar-events h3{font-size:17px;margin-bottom:5px}
+  .hint{margin:6px 0 0}
+  .googlebar,.footer{flex:0 0 auto;font-size:10px;padding:1px 3px}
+}
+/* On phones and portrait screens, return to a naturally scrolling layout. */
+@media (orientation:portrait) and (max-width:900px){
+  html,body{height:auto;overflow:auto}
+  body{display:block}
+  .shell{height:auto;overflow:visible}
+  .shell>.right,.shell>.photo-panel{max-height:none;overflow:visible}
+  .photo-panel .photo{max-height:75vh!important;width:min(100%,calc(75vh * 482 / 926));margin:auto}
+}
+
+/* Fire HD 10 16:10 landscape dashboard: one complete viewport. */
+@media (orientation:landscape) and (min-width:800px) and (max-height:850px){
+ html,body{height:100%;height:100dvh;margin:0;overflow:hidden}
+ body{display:flex;flex-direction:column;min-height:0}
+ header{flex:0 0 auto;padding:5px 12px 3px;min-height:0}
+ header h1{font-size:21px;line-height:1.1}
+ header small{font-size:8px}
+ .header-actions{gap:4px}
+ .header-actions button{font-size:10px;padding:5px 7px}
+ .shell{flex:1 1 0;height:auto;min-height:0;min-width:0;width:100%;max-width:none;
+    display:grid;grid-template-columns:minmax(0, 38%) minmax(0, 62%);
+    gap:9px;padding:4px 10px 4px;overflow:hidden}
+ .shell>.photo-panel{grid-column:1;grid-row:1;align-self:stretch!important;
+   display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:0;overflow:hidden!important}
+ .shell>.right{grid-column:2;grid-row:1;display:grid;
+   grid-template-rows:minmax(0, .8fr) minmax(0, 2.05fr) minmax(0, 3.05fr);
+   gap:7px;min-height:0;max-height:100%;overflow:hidden!important;padding:0!important}
+ .right-top{display:grid;grid-template-columns:1fr 1fr;gap:7px;min-height:0;overflow:hidden}
+ .right-top .panel{height:100%;overflow:hidden}
+ .panel{padding:8px 10px;border-radius:11px;min-height:0}
+ .sectionhead{margin-bottom:4px;gap:4px}
+ .sectionhead h2{font-size:16px;line-height:1.15}
+ .sub{font-size:8px;letter-spacing:.6px}
+ .photo-panel .sectionhead{flex:0 0 auto}
+ .photo-panel .photo{flex:1 1 0;min-height:0!important;max-height:none!important;
+   height:auto!important;width:100%!important;aspect-ratio:auto!important;
+   background:#eee4d7;overflow:hidden;border-radius:8px}
+ .photo-panel .photo img{width:100%;height:100%;object-fit:contain!important;object-position:center}
+ .photo-tools{flex:0 0 auto;justify-content:center;gap:4px;margin-top:5px}
+ .photo-tools label,.photo-tools button{font-size:9px;padding:4px 6px}
+ .photo-tools .status{font-size:9px}
+ .right-top .panel{padding:7px 9px}
+ .clock{font-size:25px;line-height:1.1}
+ .weather{font-size:21px;margin:1px 0}
+ .right-top .mini,.right-top .status,#cityName{font-size:9px;margin:2px 0}
+ .citybtn{font-size:9px;padding:2px 5px}
+ .right>.panel:nth-child(2){display:flex;flex-direction:column;overflow:hidden}
+ .right>.panel:nth-child(2)>.notes{flex:1 1 0;min-height:0;grid-template-columns:1fr 1fr;gap:7px}
+ .note{padding:6px 7px;display:flex;flex-direction:column;min-height:0}
+ .note h3{font-size:13px;line-height:1.2;margin:0 0 3px}
+ .tasklist{flex:1 1 0;min-height:0!important;max-height:none;overflow:auto;padding:0}
+ .task-muted,.taskrow{font-size:10px;line-height:1.25}
+ .taskrow{margin:3px 0}
+ .task-entry{flex:0 0 auto;margin-top:3px}
+ .task-entry input{font-size:10px;padding:4px}
+ .task-entry button{font-size:10px;padding:4px 6px}
+ .task-footer{flex:0 0 auto;margin-top:3px;gap:4px}
+ .task-footer .task-muted{font-size:9px}
+ .task-footer button{padding:3px 5px;font-size:9px}
+ .legacy{flex:0 0 auto;margin-top:3px;padding-top:3px}
+ .legacy summary{font-size:9px}
+ .legacy[open]{position:relative;z-index:2;background:var(--paper);max-height:115px;overflow:auto}
+ .legacy .notes{display:block}
+ .legacy textarea{min-height:35px}
+ .calendar-panel{display:flex;flex-direction:column;overflow:hidden!important;margin:0;min-height:0}
+ .calendar-panel .sectionhead{flex:0 0 auto}
+ .calendar-panel .nav button{padding:2px 6px;font-size:10px}
+ .calendar-panel .weekday{flex:0 0 auto;gap:2px}
+ .calendar-panel .weekday div{font-size:9px;padding:1px 0}
+ .calendar-panel .days{flex:1 1 auto;min-height:0;grid-template-rows:repeat(6,minmax(0,1fr));gap:2px}
+ .calendar-panel .day{min-height:0!important;padding:2px 3px;border-radius:4px;overflow:hidden}
+ .calendar-panel .day .num{font-size:9px}
+ .calendar-panel .dot{font-size:8px;padding:1px 2px;margin-top:1px}
+ .calendar-panel .hint{display:none}
+ .calendar-events{flex:0 0 27%;min-height:55px;max-height:88px;
+   overflow:hidden;margin-top:4px;padding-top:3px;display:flex;flex-direction:column}
+ .calendar-events h3{font-size:12px;margin:0 0 2px;flex:0 0 auto}
+ #upcomingEvents{overflow-y:auto;min-height:0;flex:1}
+ .events-entry{font-size:10px;padding:3px 0;gap:6px}
+ .events-date{flex-basis:66px;font-size:9px}
+ .events-title small{font-size:9px}
+ .googlebar,.footer{flex:0 0 auto;font-size:9px;line-height:1.15;padding:1px 3px}
+}
 </style></head><body><header><div><small>the family planner</small><h1>Our Little Home <span style="color:#9d8c74">✦</span></h1></div><div class="header-actions"><button onclick="openGoogleSettings()">⚙ Google setup</button><button id="googleSignIn" onclick="googleConnect()">Connect Google</button><button onclick="exportData()">↓ Back up</button><button onclick="document.getElementById('importFile').click()">↑ Restore</button><input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)"></div></header><main class="shell"><section class="panel wide photo-panel"><div class="sectionhead"><h2>Favorite moments</h2><span class="sub">Our photo album</span></div><div class="photo" id="photo"><div class="placeholder">Your beautiful family photos go here ♡</div></div><div class="photo-tools"><label for="photoFile">+ Add photos</label><input id="photoFile" type="file" accept="image/*" multiple onchange="addPhotos(event)"><button onclick="removePhoto()">Remove current</button><button id="pickGooglePhotos" onclick="connectPhotos()">Choose from Google Photos</button><span class="status" id="photoCount">No photos yet</span></div></section><div class="right"><div class="right-top"><section class="panel"><div class="sub" id="fullDate">Today</div><div class="clock" id="clock">--:--</div><p class="mini">A little time for what matters.</p></section><section class="panel"><div class="sectionhead"><span class="sub">The weather</span><button class="citybtn" onclick="changeCity()">Change city</button></div><div class="weather" id="weather">Loading…</div><div id="cityName">Moline, Illinois</div><p class="status" id="weatherStatus">Weather from Open-Meteo</p></section></div><section class="panel wide"><div class="sectionhead"><h2>Little reminders</h2><span class="sub">Google Tasks + Keep</span></div><div class="notes"><div class="note"><h3>✎ Little reminders</h3><div id="remindersList" class="tasklist"><div class="task-muted">Connect Google to see your reminders.</div></div><div class="task-entry"><input id="reminderInput" placeholder="Add a reminder…" maxlength="255" aria-label="New reminder"><button onclick="addDashboardTask('reminders')">Add</button></div></div><div class="note pink"><h3>♡ Shopping list</h3><div id="shoppingList" class="tasklist"><div class="task-muted">Connect Google to see your shopping list.</div></div><div class="task-entry"><input id="shoppingInput" placeholder="Add to shopping list…" maxlength="255" aria-label="New shopping item"><button onclick="addDashboardTask('shopping')">Add</button></div></div></div><div class="task-footer"><span class="task-muted" id="tasksStatus">Google Tasks: connect Google to sync</span><button onclick="refreshDashboardTasks()">↻ Sync</button><button onclick="window.open('https://keep.google.com/','_blank','noopener')">✎ Open Google Keep</button></div><details class="legacy"><summary>My earlier local notes and shopping text (saved on this tablet)</summary><p class="task-muted">These are your original local entries. They are not synced to Google Tasks or Google Keep. Copy anything important before removing it.</p><div class="notes"><div><label for="notes">Original notes</label><textarea id="notes" placeholder="Your earlier notes…" oninput="saveText('notes')"></textarea></div><div><label for="shopping">Original shopping text</label><textarea id="shopping" placeholder="Your earlier shopping list…" oninput="saveText('shopping')"></textarea></div></div></details></section><section class="panel calendar-panel"><div class="sectionhead"><h2 id="monthTitle">Calendar</h2><div class="nav"><button aria-label="Previous month" onclick="moveMonth(-1)">‹</button><button onclick="goToday()">Today</button><button aria-label="Next month" onclick="moveMonth(1)">›</button></div></div><div class="weekday"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div><div class="days" id="days"></div><p class="hint">Tap any date to see or add an event. Google Calendar appointments appear after connecting.</p><div class="calendar-events"><h3>Events this month</h3><div id="upcomingEvents" aria-live="polite"><p class="event-empty">Connect Google to see your events.</p></div></div></section></div></main><div class="googlebar" id="googleStatus">Google Calendar, Tasks &amp; Photos: not connected</div><div class="footer">A home filled with little moments is a beautiful home · <a href="https://open-meteo.com/" style="color:inherit">Weather by Open-Meteo</a></div><div class="dialog" id="googleDialog"><div class="modal"><h2>Connect Google</h2><p class="mini">Host this HTML on HTTPS (for example GitHub Pages), enable Google Calendar API, Google Tasks API and Google Photos Picker API, and enter your OAuth web Client ID. No client secret is needed.</p><label for="googleClientId">Google OAuth Client ID</label><input id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com"><div class="buttons"><button onclick="closeGoogleSettings()">Close</button><button onclick="saveGoogleSettings()">Save</button></div></div></div><div class="dialog" id="dialog"><div class="modal"><h2 id="eventHeading">Add an event</h2><label for="eventDate">Date</label><input type="date" id="eventDate"><label for="eventText">Event or reminder</label><input type="text" id="eventText" maxlength="90" placeholder="e.g. Dinner with family"><div id="eventList"></div><div class="buttons"><button onclick="closeDialog()">Close</button><button style="background:#778778;color:white" onclick="addEvent()">Save event</button></div></div></div><script>
 (function(){'use strict';var prefix='creamhome_v1_',events={},photos=[],photoIndex=0,view=new Date();view.setDate(1);function read(k,def){try{var x=localStorage.getItem(prefix+k);return x?JSON.parse(x):def}catch(e){return def}}function save(k,x){try{localStorage.setItem(prefix+k,JSON.stringify(x));return true}catch(e){alert('Storage is full. Please remove some photos or back up your data.');return false}}events=read('events',{});photos=read('photos',[]);document.getElementById('notes').value=read('notes','');document.getElementById('shopping').value=read('shopping','');window.saveText=function(id){save(id,document.getElementById(id).value)};function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}function escape(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}function render(){document.getElementById('monthTitle').textContent=view.toLocaleDateString(undefined,{month:'long',year:'numeric'});var first=new Date(view.getFullYear(),view.getMonth(),1),offset=first.getDay(),grid=document.getElementById('days');grid.innerHTML='';for(var i=0;i<42;i++){var d=new Date(view.getFullYear(),view.getMonth(),i-offset+1),k=key(d),items=(events[k]||[]).concat((window.googleEventsByDate&&window.googleEventsByDate[k]||[]).map(function(e){return '☁ '+e.summary})),b=document.createElement('button');b.className='day'+(d.getMonth()!==view.getMonth()?' other':'')+(k===key(new Date())?' today':'');b.innerHTML='<span class="num">'+d.getDate()+'</span>'+items.slice(0,2).map(function(s){return '<span class="dot">'+escape(s)+'</span>'}).join('')+(items.length>2?'<span class="dot">+'+(items.length-2)+' more</span>':'');b.setAttribute('aria-label','Edit events for '+k);b.onclick=(function(date){return function(){openDay(date)}})(k);grid.appendChild(b)}renderEventsSummary()}function renderEventsSummary(){var out=document.getElementById("upcomingEvents");if(!out)return;var year=view.getFullYear(),month=view.getMonth(),start=new Date(year,month,1),end=new Date(year,month+1,1),all=[];for(var date=new Date(start);date<end;date.setDate(date.getDate()+1)){var k=key(date);(events[k]||[]).forEach(function(title){all.push({date:k,title:title,local:true})});(window.googleEventsByDate&&window.googleEventsByDate[k]||[]).forEach(function(e){if(e.status!=="cancelled")all.push({date:k,title:e.summary||"Untitled event",start:e.start,calendar:e._dashboardCalendarName||"Google Calendar",local:false})})}out.innerHTML="";if(!all.length){var empty=document.createElement("p");empty.className="event-empty";empty.textContent=window.googleCalendarConnected?"No events this month.":"No events this month. Connect Google to load your calendar.";out.appendChild(empty);return}all.sort(function(a,b){return (a.date+((a.start&&a.start.dateTime)||"")).localeCompare(b.date+((b.start&&b.start.dateTime)||""))});all.slice(0,12).forEach(function(item){var row=document.createElement("div");row.className="events-entry";var when=document.createElement("span");when.className="events-date";var date=new Date(item.date+"T12:00:00");when.textContent=date.toLocaleDateString(undefined,{month:"short",day:"numeric",weekday:"short"});if(item.start&&item.start.dateTime){var time=new Date(item.start.dateTime);if(!isNaN(time.getTime()))when.textContent+=" · "+time.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}var title=document.createElement("span");title.className="events-title";var strong=document.createElement("strong");strong.textContent=item.title;title.appendChild(strong);var source=document.createElement("small");source.textContent=item.local?"Saved on this tablet":item.calendar;title.appendChild(source);row.appendChild(when);row.appendChild(title);out.appendChild(row)});if(all.length>12){var more=document.createElement("p");more.className="event-empty";more.textContent="+ "+(all.length-12)+" more events this month";out.appendChild(more)}}window.moveMonth=function(n){view.setMonth(view.getMonth()+n);render();if(window.refreshGoogleCalendar)window.refreshGoogleCalendar()};window.goToday=function(){view=new Date();view.setDate(1);render();if(window.refreshGoogleCalendar)window.refreshGoogleCalendar()};window.openDay=function(k){document.getElementById('eventDate').value=k;document.getElementById('eventText').value='';document.getElementById('dialog').classList.add('open');renderEvents()};window.closeDialog=function(){document.getElementById('dialog').classList.remove('open')};function renderEvents(){var k=document.getElementById('eventDate').value,items=events[k]||[],el=document.getElementById('eventList');el.innerHTML=items.length?'<p class="mini">Events on this day:</p>':'';if(window.googleEventsByDate&&window.googleEventsByDate[k])window.googleEventsByDate[k].forEach(function(e){var row=document.createElement('div');row.className='eventrow';var label=document.createElement('span');label.textContent='☁ '+e.summary;var edit=document.createElement('button');edit.textContent='Edit';edit.onclick=function(){window.editGoogleEvent(e)};var del=document.createElement('button');del.textContent='Delete';del.onclick=function(){window.deleteGoogleEvent(e)};row.appendChild(label);row.appendChild(edit);row.appendChild(del);el.appendChild(row)});items.forEach(function(t,i){var row=document.createElement('div');row.className='eventrow';var span=document.createElement('span');span.textContent=t;var btn=document.createElement('button');btn.textContent='Delete';btn.onclick=function(){items.splice(i,1);if(!items.length)delete events[k];save('events',events);renderEvents();render()};row.appendChild(span);row.appendChild(btn);el.appendChild(row)})}document.getElementById('eventDate').onchange=renderEvents;window.addEvent=function(){var k=document.getElementById('eventDate').value,t=document.getElementById('eventText').value.trim();if(!k||!t)return;if(window.googleCalendarConnected&&confirm('Save this event to Google Calendar?')){window.addGoogleEvent(k,t);document.getElementById('eventText').value='';return}if(!events[k])events[k]=[];events[k].push(t);save('events',events);document.getElementById('eventText').value='';renderEvents();render()};function tick(){var d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});document.getElementById('fullDate').textContent=d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'})}tick();setInterval(tick,15000);function showPhoto(){var el=document.getElementById('photo');el.innerHTML='';if(!photos.length){el.innerHTML='<div class="placeholder">Your beautiful family photos go here ♡</div>'}else{photoIndex=photoIndex%photos.length;var im=document.createElement('img');im.src=photos[photoIndex];im.alt='Family photo';el.appendChild(im)}document.getElementById('photoCount').textContent=photos.length?photos.length+' photo'+(photos.length===1?'':'s'):'No photos yet'}showPhoto();setInterval(function(){if(photos.length>1){photoIndex=(photoIndex+1)%photos.length;showPhoto()}},7000);window.addPhotos=function(e){var files=Array.prototype.slice.call(e.target.files||[]),i=0;function next(){if(i>=files.length){e.target.value='';return}var f=files[i++];if(!f.type.startsWith('image/'))return next();var reader=new FileReader();reader.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas'),ratio=Math.min(1,1000/im.width,700/im.height);c.width=Math.max(1,Math.round(im.width*ratio));c.height=Math.max(1,Math.round(im.height*ratio));c.getContext('2d').drawImage(im,0,0,c.width,c.height);var compressed=c.toDataURL('image/jpeg',.7);var candidate=photos.concat([compressed]);if(save('photos',candidate)){photos=candidate;photoIndex=photos.length-1;showPhoto()}next()};im.onerror=next;im.src=reader.result};reader.onerror=next;reader.readAsDataURL(f)}next()};window.removePhoto=function(){if(!photos.length)return;if(!confirm('Remove the current photo from this dashboard?'))return;photos.splice(photoIndex,1);photoIndex=0;save('photos',photos);showPhoto()};window.exportData=function(){var data={events:events,notes:document.getElementById('notes').value,shopping:document.getElementById('shopping').value,photos:photos,city:read('city',{name:'Moline, Illinois',lat:41.5067,lon:-90.5151})},blob=new Blob([JSON.stringify(data)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-family-dashboard-backup.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000)};window.importData=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var x=JSON.parse(r.result);if(!confirm('Restore backup? This will replace your current dashboard data.'))return;['events','notes','shopping','photos','city'].forEach(function(k){if(x[k]!==undefined)save(k,x[k])});location.reload()}catch(err){alert('Could not read that backup file.')}};r.readAsText(f)};var city=read('city',{name:'Moline, Illinois',lat:41.5067,lon:-90.5151});function weatherLabel(code){if(code===0)return '☀️ Clear';if(code<=3)return '⛅ Partly cloudy';if(code<=48)return '🌫️ Foggy';if(code<=67)return '🌧️ Rain';if(code<=77)return '❄️ Snow';if(code<=82)return '🌦️ Showers';if(code<=86)return '❄️ Snow showers';if(code>=95)return '⛈️ Storms';return '🌤️ Weather'}function loadWeather(){document.getElementById('cityName').textContent=city.name;document.getElementById('weatherStatus').textContent='Updating weather…';fetch('https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(city.lat)+'&longitude='+encodeURIComponent(city.lon)+'&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto').then(function(r){if(!r.ok)throw Error('Weather unavailable');return r.json()}).then(function(d){document.getElementById('weather').textContent=Math.round(d.current.temperature_2m)+'°F';document.getElementById('weatherStatus').textContent=weatherLabel(d.current.weather_code)+' · Updated automatically';}).catch(function(){document.getElementById('weather').textContent='—';document.getElementById('weatherStatus').textContent='Connect to the internet for weather'})}window.changeCity=function(){var q=prompt('Enter your city (for example: Moline or Chicago):',city.name);if(!q||!q.trim())return;fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(q.trim())+'&count=5&language=en&format=json').then(function(r){return r.json()}).then(function(d){if(!d.results||!d.results.length){alert('City not found. Try a nearby larger city.');return}var x=d.results[0];city={name:x.name+(x.admin1?', '+x.admin1:''),lat:x.latitude,lon:x.longitude};save('city',city);loadWeather()}).catch(function(){alert('City search needs an internet connection')})};loadWeather();setInterval(loadWeather,30*60*1000);render();window.getDashboardViewMonth=function(){return new Date(view.getFullYear(),view.getMonth(),1)};window.redrawDashboardCalendar=render;window.redrawDashboardEvents=renderEvents})();
 </script><script src="https://accounts.google.com/gsi/client" async defer></script><script>
