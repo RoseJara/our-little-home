@@ -425,6 +425,14 @@ function api(url,opts){opts=opts||{};opts.headers=Object.assign({'Authorization'
 window.openGoogleSettings=function(){document.getElementById('googleClientId').value=clientId;document.getElementById('googleDialog').classList.add('open')};
 window.closeGoogleSettings=function(){document.getElementById('googleDialog').classList.remove('open')};
 window.saveGoogleSettings=function(){var x=document.getElementById('googleClientId').value.trim();if(!/^[\w-]+\.apps\.googleusercontent\.com$/.test(x)){alert('Please enter a valid Google OAuth Web Client ID.');return}clientId=x;localStorage.setItem(prefix+'client_id',x);window.closeGoogleSettings();message('Google setup saved. Tap Connect Google.')};
+// Keep long-running Fire tablet displays connected without opening an interactive sign-in.
+if(window.OurLittleHomeAndroid && typeof window.OurLittleHomeAndroid.refreshSession === 'function') {
+  setInterval(function(){
+    if(window.googleCalendarConnected && Date.now() > tokenExpires - 8*60*1000) {
+      try {window.OurLittleHomeAndroid.refreshSession(calendarScope);} catch(e) {console.warn(e);}
+    }
+  }, 4*60*1000);
+}
 window.googleConnect=function(){auth(calendarScope).then(function(){window.googleCalendarConnected=true;document.getElementById('googleSignIn').textContent='Google connected';message('Google signed in · Loading calendars…');return Promise.all([window.refreshGoogleCalendar(),window.initializeDashboardTasks()])}).catch(err)};
 window.refreshGoogleCalendar=async function(){
  if(!token||Date.now()>tokenExpires||!window.googleCalendarConnected){message('Google session expired · Tap Connect Google');return;}
