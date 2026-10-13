@@ -401,15 +401,15 @@
 /* Color just the calendar date number; preserve event colors and highlighting. */
 .calendar-panel .day.olh-day-off .num { color:#b43b3b !important;font-weight:700; }
 @media (orientation:landscape) and (min-width:700px) {
-  /* 1 cm is approximately 38 CSS px. Extra vertical space can scroll; no content is cut off. */
+  /* Reduce dashboard height by approximately 0.5 cm (19 CSS pixels) from the previous version. */
   html,body { overflow-x:hidden !important; overflow-y:auto !important; }
   body { height:auto !important; min-height:100dvh !important; }
   main.shell {
     flex:0 0 auto !important;
-    height:calc(100dvh + 10px) !important;
+    height:calc(100dvh - 9px) !important;
     min-height:0 !important;
   }
-  /* Header/footer occupy roughly 28 px; +10px here adds about 38px vs the prior main area. */
+  /* Keeps the existing header, columns, fonts, logo, and integrations unchanged. */
 }
 
 /* Readability update: larger type with unchanged three-column layout. */
