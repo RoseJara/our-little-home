@@ -561,7 +561,7 @@
   <div class="olh-page-top"><div><h2>Our Weekly Food Planner ♡</h2><p>Plan breakfast, lunch and dinner for every day. Your meals save automatically on this tablet.</p></div>
   <button type="button" onclick="olhChangeWeek(-1)">‹ Previous week</button><button type="button" onclick="olhChangeWeek(0)">This week</button><button type="button" onclick="olhChangeWeek(1)">Next week ›</button>
   </div>
-  <div id="olhWeekLabel" class="olh-page-note"></div>
+  <div id="olhWeekLabel" class="olh-page-note"></div><div id="olhMealSync" class="olh-page-note">Connect Google to sync meals to Calendar</div>
   <div id="olhWeekGrid" class="olh-week"></div>
   <div class="olh-page-note">Swipe left for paintings · Swipe right to return home</div>
  </div>
@@ -586,7 +586,7 @@
  <button type="button" data-olh-page="1" onclick="olhSetPage(1)">♡ Food planner</button>
  <button type="button" data-olh-page="2" onclick="olhSetPage(2)">▧ Paintings</button>
 </nav>
-<div id="timedReminderEditor" class="timed-backdrop" role="dialog" aria-modal="true" aria-labelledby="timedEditorHeading"><div class="timed-editor"><h2 id="timedEditorHeading">⏰ Set a reminder</h2><label for="timedReminderText">What should I remind you?</label><input id="timedReminderText" maxlength="160" placeholder="e.g. Take out the trash"/><label for="timedReminderWhen">Date and time</label><input id="timedReminderWhen" type="datetime-local"/><label class="timed-early-option"><input type="checkbox" id="timedReminderEarly" checked/> Also remind me 1 day before</label><div class="timed-actions"><button type="button" onclick="closeTimedReminderEditor()">Close</button><button type="button" onclick="saveTimedReminder()">Save reminder</button></div><div id="timedReminderList" aria-live="polite"></div><p class="mini">Pop-ups appear when Our Little Home is open. If it was closed, overdue reminders appear the next time you open it. Saved only on this tablet.</p></div></div><div id="timedReminderAlert" class="timed-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="timedAlertHeading" aria-describedby="timedAlertMessage"><div class="timed-alert"><div class="timed-bell">♡ ⏰ ♡</div><h2 id="timedAlertHeading">A little reminder</h2><div class="timed-message" id="timedAlertMessage"></div><div class="timed-when" id="timedAlertWhen"></div><div class="timed-alert-actions"><button type="button" onclick="snoozeTimedReminder()">Snooze 10 min</button><button type="button" class="timed-done" id="timedAlertDoneButton" onclick="dismissTimedReminder()">Done ✓</button></div></div></div><div class="googlebar" id="googleStatus">Google Calendar, Tasks &amp; Photos: not connected</div><div class="footer">A home filled with little moments is a beautiful home · <a href="https://open-meteo.com/" style="color:inherit">Weather by Open-Meteo</a></div><div class="dialog" id="googleDialog"><div class="modal"><h2>Connect Google</h2><p class="mini">Host this HTML on HTTPS (for example GitHub Pages), enable Google Calendar API, Google Tasks API and Google Photos Picker API, and enter your OAuth web Client ID. No client secret is needed.</p><label for="googleClientId">Google OAuth Client ID</label><input id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com"/><div class="buttons"><button onclick="closeGoogleSettings()">Close</button><button onclick="saveGoogleSettings()">Save</button></div></div></div><div class="dialog" id="dialog"><div class="modal"><h2 id="eventHeading">Add an event</h2><label for="eventDate">Date</label><input id="eventDate" type="date"/><label for="eventText">Event or reminder</label><input id="eventText" maxlength="90" placeholder="e.g. Dinner with family" type="text"/><div id="eventList"></div><div class="buttons"><button onclick="closeDialog()">Close</button><button onclick="addEvent()" style="background:#778778;color:white">Save event</button></div></div></div><script>
+<div id="timedReminderEditor" class="timed-backdrop" role="dialog" aria-modal="true" aria-labelledby="timedEditorHeading"><div class="timed-editor"><h2 id="timedEditorHeading">⏰ Set a reminder</h2><label for="timedReminderText">What should I remind you?</label><input id="timedReminderText" maxlength="160" placeholder="e.g. Take out the trash"/><label for="timedReminderWhen">Date and time</label><input id="timedReminderWhen" type="datetime-local"/><label class="timed-early-option"><input type="checkbox" id="timedReminderEarly" checked/> Also remind me 1 day before</label><div class="timed-actions"><button type="button" onclick="closeTimedReminderEditor()">Close</button><button type="button" onclick="saveTimedReminder()">Save reminder</button></div><div id="timedCloudStatus" style="font-size:12px;color:#8a8175;margin:5px 0">Connect Google to sync scheduled reminders</div><div id="timedReminderList" aria-live="polite"></div><p class="mini">Pop-ups appear when Our Little Home is open. If it was closed, overdue reminders appear the next time you open it. Saved only on this tablet.</p></div></div><div id="timedReminderAlert" class="timed-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="timedAlertHeading" aria-describedby="timedAlertMessage"><div class="timed-alert"><div class="timed-bell">♡ ⏰ ♡</div><h2 id="timedAlertHeading">A little reminder</h2><div class="timed-message" id="timedAlertMessage"></div><div class="timed-when" id="timedAlertWhen"></div><div class="timed-alert-actions"><button type="button" onclick="snoozeTimedReminder()">Snooze 10 min</button><button type="button" class="timed-done" id="timedAlertDoneButton" onclick="dismissTimedReminder()">Done ✓</button></div></div></div><div class="googlebar" id="googleStatus">Google Calendar, Tasks &amp; Photos: not connected</div><div class="footer">A home filled with little moments is a beautiful home · <a href="https://open-meteo.com/" style="color:inherit">Weather by Open-Meteo</a></div><div class="dialog" id="googleDialog"><div class="modal"><h2>Connect Google</h2><p class="mini">Host this HTML on HTTPS (for example GitHub Pages), enable Google Calendar API, Google Tasks API and Google Photos Picker API, and enter your OAuth web Client ID. No client secret is needed.</p><label for="googleClientId">Google OAuth Client ID</label><input id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com"/><div class="buttons"><button onclick="closeGoogleSettings()">Close</button><button onclick="saveGoogleSettings()">Save</button></div></div></div><div class="dialog" id="dialog"><div class="modal"><h2 id="eventHeading">Add an event</h2><label for="eventDate">Date</label><input id="eventDate" type="date"/><label for="eventText">Event or reminder</label><input id="eventText" maxlength="90" placeholder="e.g. Dinner with family" type="text"/><div id="eventList"></div><div class="buttons"><button onclick="closeDialog()">Close</button><button onclick="addEvent()" style="background:#778778;color:white">Save event</button></div></div></div><script>
 (function(){'use strict';var prefix='creamhome_v1_',events={},photos=[],photoIndex=0,view=new Date();view.setDate(1);function read(k,def){try{var x=localStorage.getItem(prefix+k);return x?JSON.parse(x):def}catch(e){return def}}function save(k,x){try{localStorage.setItem(prefix+k,JSON.stringify(x));return true}catch(e){alert('Storage is full. Please remove some photos or back up your data.');return false}}events=read('events',{});photos=read('photos',[]);document.getElementById('notes').value=read('notes','');document.getElementById('shopping').value=read('shopping','');window.saveText=function(id){save(id,document.getElementById(id).value)};function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}/* US federal holidays, including observed weekday dates. Work schedules may differ. */
 function olhNthWeekday(year,month,weekday,n){var first=new Date(year,month,1),offset=(weekday-first.getDay()+7)%7;return new Date(year,month,1+offset+7*(n-1))}
 function olhLastWeekday(year,month,weekday){var last=new Date(year,month+1,0);return new Date(year,month,last.getDate()-(last.getDay()-weekday+7)%7)}
@@ -687,6 +687,19 @@ window.addGoogleEvent=function(k,summary){if(!token||Date.now()>tokenExpires){al
 window.editGoogleEvent=function(e){var title=prompt('Edit Google Calendar event',e.summary);if(title===null||!title.trim())return;api('https://www.googleapis.com/calendar/v3/calendars/primary/events/'+encodeURIComponent(e.id),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:title.trim()})}).then(function(){return window.refreshGoogleCalendar()}).then(function(){window.redrawDashboardEvents&&window.redrawDashboardEvents()}).catch(err)};
 window.deleteGoogleEvent=function(e){if(!confirm('Delete this event from Google Calendar?'))return;api('https://www.googleapis.com/calendar/v3/calendars/primary/events/'+encodeURIComponent(e.id),{method:'DELETE'}).then(function(){return window.refreshGoogleCalendar()}).then(function(){window.redrawDashboardEvents&&window.redrawDashboardEvents()}).catch(err)};
 
+
+/* Google sync bridge shares the existing authenticated session; no additional OAuth login. */
+window.olhCloud={
+ ready:function(){return !!(token&&Date.now()<tokenExpires&&window.googleCalendarConnected)},
+ request:function(url,opts){if(!this.ready())return Promise.reject(Error('Connect Google first'));return api(url,opts)},
+ tasksList:async function(){
+   var url='https://tasks.googleapis.com/tasks/v1/users/@me/lists';
+   var lists=await this.request(url);var list=(lists.items||[]).find(function(x){return x.title==='Our Little Home — Timed Alerts'});
+   if(!list)list=await this.request(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:'Our Little Home — Timed Alerts'})});
+   return list.id;
+ },
+ refreshCalendar:function(){return window.refreshGoogleCalendar()},
+};
  // Google Tasks: two separate cloud lists, never silently overwrite earlier local notes.
  var taskLists={reminders:null,shopping:null};
  var taskNames={reminders:'Our Little Home — Reminders',shopping:'Our Little Home — Shopping'};
@@ -755,7 +768,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  'use strict';
  var STORE='our_little_home_timed_alerts_v1';
  var DAY=24*60*60*1000;
- var reminders=[],active=null;
+ var reminders=[],active=null,syncBusy=false;
  try{
    var saved=JSON.parse(localStorage.getItem(STORE)||'[]');
    if(Array.isArray(saved))reminders=saved.filter(function(r){
@@ -775,7 +788,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
      var del=document.createElement('button');del.textContent='Delete';
      del.onclick=function(){
        if(active&&active.id===r.id){active=null;document.getElementById('timedReminderAlert').classList.remove('open');}
-       reminders=reminders.filter(function(x){return x.id!==r.id});persist();editorList();checkReminders();
+       reminders=reminders.filter(function(x){return x.id!==r.id});persist();if(r.cloudId&&window.olhCloud&&window.olhCloud.ready()){window.olhCloud.tasksList().then(function(l){return window.olhCloud.request('https://tasks.googleapis.com/tasks/v1/lists/'+encodeURIComponent(l)+'/tasks/'+encodeURIComponent(r.cloudId),{method:'DELETE'})}).catch(console.warn);}editorList();checkReminders();
      };
      el.appendChild(txt);el.appendChild(del);root.appendChild(el);
    });
@@ -801,8 +814,53 @@ if(clientId)message('Google setup saved · Tap Connect Google');
              text:text,when:when,done:false,early:early,earlyShown:false};
    reminders.push(item);
    if(!persist()){reminders.pop();return;}
+   syncCloudReminders();
    field.value='';whenField.value='';editorList();window.closeTimedReminderEditor();checkReminders();
  };
+
+ async function syncCloudReminders(){
+   var cloud=window.olhCloud;if(!cloud||!cloud.ready()||syncBusy)return;
+   syncBusy=true;
+   try{
+     var list=await cloud.tasksList(),base='https://tasks.googleapis.com/tasks/v1/lists/'+encodeURIComponent(list)+'/tasks';
+     var remote=[],next='';
+     do{
+       var data=await cloud.request(base+'?showCompleted=true&showHidden=true&maxResults=100'+(next?'&pageToken='+encodeURIComponent(next):''));
+       remote=remote.concat(data.items||[]);next=data.nextPageToken||'';
+     }while(next);
+     var byId={};remote.forEach(function(t){if(!t.deleted)byId[t.id]=t});
+     var changed=false;
+     for(var r of reminders.slice()){
+       if(!r.cloudId){
+         var note='OLH_TIMED_V1:'+JSON.stringify({when:r.when,early:r.early!==false,earlyShown:!!r.earlyShown});
+         var payload={title:r.text,notes:note,due:new Date(r.when).toISOString(),status:r.done?'completed':'needsAction'};
+         var created=await cloud.request(base,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+         r.cloudId=created.id;changed=true;
+       }else if(!byId[r.cloudId]){
+         // A previously synced task was deleted on the phone.
+         reminders=reminders.filter(function(x){return x!==r});changed=true;
+       }else{
+         var rt=byId[r.cloudId];
+         if(rt.status==='completed'&&!r.done){r.done=true;changed=true;}
+         if(rt.title&&rt.title!==r.text){r.text=rt.title;changed=true;}
+       }
+     }
+     for(var t of remote){
+       if(t.deleted||reminders.some(function(r){return r.cloudId===t.id}))continue;
+       var meta=null;
+       try{if((t.notes||'').startsWith('OLH_TIMED_V1:'))meta=JSON.parse(t.notes.slice(13));}catch(e){}
+       var when=meta&&Number.isFinite(meta.when)?meta.when:(t.due?new Date(t.due).getTime():NaN);
+       if(!Number.isFinite(when))continue;
+       reminders.push({id:'cloud-'+t.id,cloudId:t.id,text:t.title||'Reminder',when:when,
+         early:meta?meta.early!==false:true,earlyShown:meta?!!meta.earlyShown:false,done:t.status==='completed'});
+       changed=true;
+     }
+     if(changed){persist();editorList();checkReminders();}
+     document.getElementById('timedCloudStatus').textContent='Google Tasks synced';
+   }catch(e){console.warn('Timed reminder sync',e);document.getElementById('timedCloudStatus').textContent='Sync pending · '+e.message;}
+   finally{syncBusy=false;}
+ }
+ window.olhSyncTimedReminders=syncCloudReminders;
  function checkReminders(){
    if(active!==null)return;
    var now=Date.now(),candidate=null;
@@ -832,6 +890,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
        if(active.stage==='early')entry.earlyShown=true;
        else entry.done=true;
        persist();
+       if(entry.done&&entry.cloudId&&window.olhCloud&&window.olhCloud.ready()){window.olhCloud.tasksList().then(function(l){return window.olhCloud.request('https://tasks.googleapis.com/tasks/v1/lists/'+encodeURIComponent(l)+'/tasks/'+encodeURIComponent(entry.cloudId),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'completed',completed:new Date().toISOString()})})}).catch(console.warn);}
      }
    }
    active=null;document.getElementById('timedReminderAlert').classList.remove('open');
@@ -850,6 +909,8 @@ if(clientId)message('Google setup saved · Tap Connect Google');
    editorList();checkReminders();
  };
  setInterval(checkReminders,10000);
+ setInterval(syncCloudReminders,60000);
+ setTimeout(syncCloudReminders,4000);
  document.addEventListener('visibilitychange',function(){if(!document.hidden)checkReminders();});
  window.addEventListener('focus',checkReminders);
  checkReminders();
@@ -882,10 +943,11 @@ if(clientId)message('Google setup saved · Tap Connect Google');
      if(Number(b.dataset.olhPage)===page)b.setAttribute('aria-current','page');
      else b.removeAttribute('aria-current');
    });
-   if(page===1)renderWeek();
+   if(page===1){renderWeek();syncMealWeek();}
    if(page===2){loadPaintings();startArt();}
    else stopArt();
  };
+ setInterval(function(){if(page===1)syncMealWeek()},120000);
  function mondayOfWeek(){
    var d=new Date(),dow=(d.getDay()+6)%7;
    d.setHours(12,0,0,0);d.setDate(d.getDate()-dow+weekOffset*7);
@@ -893,11 +955,56 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  }
  function dateKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');}
  function readMeals(){try{return JSON.parse(localStorage.getItem('olh_meal_planner_v1')||'{}')}catch(e){return {}}}
+ var mealDirty={};try{mealDirty=JSON.parse(localStorage.getItem("olh_meal_dirty_v1")||"{}")}catch(e){}
+ function saveDirty(){localStorage.setItem("olh_meal_dirty_v1",JSON.stringify(mealDirty));}
  function saveMeal(key,value){
+   mealDirty[key]=true;saveDirty();
+   clearTimeout(mealSyncTimer);mealSyncTimer=setTimeout(syncMealWeek,1800);
    var meals=readMeals();meals[key]=value;
    try{localStorage.setItem('olh_meal_planner_v1',JSON.stringify(meals));}
    catch(e){alert('Your tablet storage is full. Please free some space to save meals.');}
  }
+
+ var mealSyncBusy=false,mealSyncTimer=null;
+ async function syncMealWeek(){
+   var cloud=window.olhCloud;if(!cloud||!cloud.ready()||mealSyncBusy)return;
+   mealSyncBusy=true;
+   var mon=mondayOfWeek(),finish=new Date(mon);finish.setDate(finish.getDate()+7);
+   var calendar='https://www.googleapis.com/calendar/v3/calendars/primary/events';
+   try{
+     var result=await cloud.request(calendar+'?singleEvents=true&maxResults=250&timeMin='+encodeURIComponent(new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()).toISOString())+'&timeMax='+encodeURIComponent(new Date(finish.getFullYear(),finish.getMonth(),finish.getDate()).toISOString()));
+     var remote={};
+     (result.items||[]).forEach(function(e){var k=e.extendedProperties&&e.extendedProperties.private&&e.extendedProperties.private.olhMealKey;if(k)remote[k]=e;});
+     var meals=readMeals(),changed=false;
+     for(var i=0;i<7;i++){
+       var d=new Date(mon);d.setDate(d.getDate()+i);
+       for(var kind of ['Breakfast','Lunch','Dinner']){
+         var key=dateKey(d)+'_'+kind.toLowerCase(),event=remote[key];
+         // Pull edits made on phone back to tablet, except local unsynced edits.
+         var dirty=mealDirty[key]||(!event&&!!meals[key]);
+         if(event&&!dirty){
+           var text=event.summary?event.summary.replace(/^🍽\s*(Breakfast|Lunch|Dinner):\s*/i,''):(event.description||'').replace(/^Our Little Home meal:\s*/,'').trim();
+           if(meals[key]!==text){meals[key]=text;changed=true;}
+         }else if(dirty){
+           var value=meals[key]||'';
+           if(value){
+             var tomorrow=new Date(d);tomorrow.setDate(tomorrow.getDate()+1);
+             var data={summary:'🍽 '+kind+': '+value,description:'Our Little Home meal: '+value,
+               start:{date:dateKey(d)},end:{date:dateKey(tomorrow)},extendedProperties:{private:{olhMealKey:key}}};
+             await cloud.request(event?calendar+'/'+encodeURIComponent(event.id):calendar,
+               {method:event?'PATCH':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+           }else if(event){await cloud.request(calendar+'/'+encodeURIComponent(event.id),{method:'DELETE'});}
+           delete mealDirty[key];saveDirty();
+         }
+       }
+     }
+     if(changed){localStorage.setItem('olh_meal_planner_v1',JSON.stringify(meals));if(document.getElementById('olhMealPage').classList.contains('olh-visible'))renderWeek();}
+     document.getElementById('olhMealSync').textContent='Meals synced with Google Calendar';
+     if(changed)cloud.refreshCalendar();
+   }catch(e){console.warn('Meal calendar sync',e);document.getElementById('olhMealSync').textContent='Meal sync pending · '+e.message;}
+   finally{mealSyncBusy=false;}
+ }
+ window.olhSyncMeals=syncMealWeek;
  function renderWeek(){
    var mon=mondayOfWeek(),end=new Date(mon);end.setDate(end.getDate()+6);
    document.getElementById('olhWeekLabel').textContent=mon.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' – '+end.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
