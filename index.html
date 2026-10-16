@@ -1052,8 +1052,17 @@ if(clientId)message('Google setup saved · Tap Connect Google');
    document.getElementById('olhArtTitle').textContent=item.title||'Untitled';
    document.getElementById('olhArtArtist').textContent=item.artist_title||'Art Institute of Chicago';
    img.onload=function(){img.classList.add('loaded');document.getElementById('olhArtPlaceholder').style.display='none';};
-   img.onerror=function(){img.classList.remove('loaded');document.getElementById('olhArtPlaceholder').textContent='Painting unavailable · Try Next';document.getElementById('olhArtPlaceholder').style.display='block';};
-   img.src='https://www.artic.edu/iiif/2/'+encodeURIComponent(item.image_id)+'/full/843,/0/default.jpg';
+   // Prefer a sharp tablet-sized IIIF image. Fall back if a source cannot serve it.
+   var iiif='https://www.artic.edu/iiif/2/'+encodeURIComponent(item.image_id)+'/full/';
+   var sizes=['2200,','1600,','843,'];
+   var attempt=0;
+   img.onerror=function(){
+     if(++attempt<sizes.length){img.src=iiif+sizes[attempt]+'/0/default.jpg';return;}
+     img.classList.remove('loaded');
+     document.getElementById('olhArtPlaceholder').textContent='Painting unavailable · Try Next';
+     document.getElementById('olhArtPlaceholder').style.display='block';
+   };
+   img.src=iiif+sizes[attempt]+'/0/default.jpg';
  }
  window.olhArtMove=function(direction){
    if(!paintings.length)return;
