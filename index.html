@@ -1118,7 +1118,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
 <style>
 /* Full-screen idle painting. No changes to the three existing page sizes. */
 #olhIdleArt {
-  position:fixed; inset:0; z-index:11;
+  position:fixed; inset:0; z-index:30;
   background:#1f2422; display:none; overflow:hidden;
   align-items:center; justify-content:center; cursor:pointer;
 }
@@ -1153,7 +1153,8 @@ if(clientId)message('Google setup saved · Tap Connect Google');
 #olhIdleArt .olh-idle-hint { display:none !important; }
 .olh-art-stage img { width:100%;height:100%;object-fit:cover !important;object-position:center center; }
 .olh-art-stage { background:#dedbd0; }
-</style>\n<div id="olhIdleArt" role="button" aria-label="Tap to return to Our Little Home" tabindex="0">
+</style>
+<div id="olhIdleArt" role="button" aria-label="Tap to return to Our Little Home" tabindex="0">
  <div class="olh-idle-wait" id="olhIdleWait">A quiet moment with art</div>
  <img id="olhIdleImage" alt="Landscape painting" />
  <div class="olh-idle-hint">Touch anywhere for Our Little Home ♡</div>
@@ -1213,10 +1214,22 @@ if(clientId)message('Google setup saved · Tap Connect Google');
    window.olhSetPage(0);
    lastAction=Date.now();schedule();
  }
- overlay.addEventListener('touchstart',goHome,{passive:false});
- overlay.addEventListener('touchend',function(e){e.stopPropagation()},{passive:true});
+ // A touch must not reach the page-swiping listener after dismissing the art.
+ // Handle touchend instead of touchstart to prevent the same gesture changing pages.
+ overlay.addEventListener('touchstart',function(e){e.stopPropagation();},{passive:true});
+ overlay.addEventListener('touchend',function(e){
+   e.preventDefault();e.stopPropagation();goHome();
+ },{passive:false});
  overlay.addEventListener('click',goHome);
  overlay.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')goHome(e)});
+ // If the user manually opened the painting gallery, tapping the painting
+ // (rather than a gallery control) also returns to the Home page.
+ var galleryStage=document.querySelector('#olhPaintPage .olh-art-stage');
+ if(galleryStage){
+   galleryStage.addEventListener('click',function(e){
+     e.stopPropagation();window.olhSetPage(0);lastAction=Date.now();schedule();
+   });
+ }
  ['touchstart','pointerdown','mousedown','keydown','input','wheel'].forEach(function(name){
    document.addEventListener(name,activity,{passive:true,capture:true});
  });
