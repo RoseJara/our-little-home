@@ -590,7 +590,18 @@
  <button type="button" data-olh-page="1" onclick="olhSetPage(1)">♡ Food planner</button>
  <button type="button" data-olh-page="2" onclick="olhSetPage(2)">▧ Paintings</button>
 </nav>
-<div id="timedReminderEditor" class="timed-backdrop" role="dialog" aria-modal="true" aria-labelledby="timedEditorHeading"><div class="timed-editor"><h2 id="timedEditorHeading">⏰ Set a reminder</h2><label for="timedReminderText">What should I remind you?</label><input id="timedReminderText" maxlength="160" placeholder="e.g. Take out the trash"/><label for="timedReminderWhen">Date and time</label><input id="timedReminderWhen" type="datetime-local"/><label class="timed-early-option"><input type="checkbox" id="timedReminderEarly" checked/> Also remind me 1 day before</label><div class="timed-actions"><button type="button" onclick="closeTimedReminderEditor()">Close</button><button type="button" onclick="saveTimedReminder()">Save reminder</button></div><div id="timedCloudStatus" style="font-size:12px;color:#8a8175;margin:5px 0">Connect Google to sync scheduled reminders</div><div id="timedReminderList" aria-live="polite"></div><p class="mini">Pop-ups appear when Our Little Home is open. If it was closed, overdue reminders appear the next time you open it. Saved only on this tablet.</p></div></div><div id="timedReminderAlert" class="timed-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="timedAlertHeading" aria-describedby="timedAlertMessage"><div class="timed-alert"><div class="timed-bell">♡ ⏰ ♡</div><h2 id="timedAlertHeading">A little reminder</h2><div class="timed-message" id="timedAlertMessage"></div><div class="timed-when" id="timedAlertWhen"></div><div class="timed-alert-actions"><button type="button" onclick="snoozeTimedReminder()">Snooze 10 min</button><button type="button" class="timed-done" id="timedAlertDoneButton" onclick="dismissTimedReminder()">Done ✓</button></div></div></div><div class="googlebar" id="googleStatus">Google Calendar, Tasks &amp; Photos: not connected</div><div class="footer">A home filled with little moments is a beautiful home · <a href="https://open-meteo.com/" style="color:inherit">Weather by Open-Meteo</a></div><div id="olhVoiceDialog" class="dialog" role="dialog" aria-modal="true" aria-label="Add item by voice"><div class="modal"><h2>🎤 Add by voice</h2><p class="mini" id="olhVoiceStatus">Say “Add milk to shopping list” or “Add water the plants to my to-do list.”</p><label for="olhVoiceText">Item to add</label><input id="olhVoiceText" type="text" maxlength="255" placeholder="Milk"/><label for="olhVoiceKind">Add to</label><select id="olhVoiceKind"><option value="shopping">Shopping List</option><option value="reminders">To Do List</option></select><div class="buttons"><button type="button" onclick="olhVoiceClose()">Cancel</button><button type="button" id="olhVoiceConfirm" onclick="olhVoiceConfirm()">Add to Google Tasks</button></div></div></div><div class="dialog" id="googleDialog"><div class="modal"><h2>Connect Google</h2><p class="mini">Host this HTML on HTTPS (for example GitHub Pages), enable Google Calendar API, Google Tasks API and Google Photos Picker API, and enter your OAuth web Client ID. No client secret is needed.</p><label for="googleClientId">Google OAuth Client ID</label><input id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com"/><div class="buttons"><button onclick="closeGoogleSettings()">Close</button><button onclick="saveGoogleSettings()">Save</button></div></div></div><div class="dialog" id="dialog"><div class="modal"><h2 id="eventHeading">Add an event</h2><label for="eventDate">Date</label><input id="eventDate" type="date"/><label for="eventText">Event or reminder</label><input id="eventText" maxlength="90" placeholder="e.g. Dinner with family" type="text"/><div id="eventList"></div><div class="buttons"><button onclick="closeDialog()">Close</button><button onclick="addEvent()" style="background:#778778;color:white">Save event</button></div></div></div><script>
+<div id="timedReminderEditor" class="timed-backdrop" role="dialog" aria-modal="true" aria-labelledby="timedEditorHeading"><div class="timed-editor"><h2 id="timedEditorHeading">⏰ Set a reminder</h2><label for="timedReminderText">What should I remind you?</label><input id="timedReminderText" maxlength="160" placeholder="e.g. Take out the trash"/><label for="timedReminderWhen">Date and time</label><input id="timedReminderWhen" type="datetime-local"/><label class="timed-early-option"><input type="checkbox" id="timedReminderEarly" checked/> Also remind me 1 day before</label><div class="timed-actions"><button type="button" onclick="closeTimedReminderEditor()">Close</button><button type="button" onclick="saveTimedReminder()">Save reminder</button></div><div id="timedCloudStatus" style="font-size:12px;color:#8a8175;margin:5px 0">Connect Google to sync scheduled reminders</div><div id="timedReminderList" aria-live="polite"></div><p class="mini">Pop-ups appear when Our Little Home is open. If it was closed, overdue reminders appear the next time you open it. Saved only on this tablet.</p></div></div><div id="timedReminderAlert" class="timed-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="timedAlertHeading" aria-describedby="timedAlertMessage"><div class="timed-alert"><div class="timed-bell">♡ ⏰ ♡</div><h2 id="timedAlertHeading">A little reminder</h2><div class="timed-message" id="timedAlertMessage"></div><div class="timed-when" id="timedAlertWhen"></div><div class="timed-alert-actions"><button type="button" onclick="snoozeTimedReminder()">Snooze 10 min</button><button type="button" class="timed-done" id="timedAlertDoneButton" onclick="dismissTimedReminder()">Done ✓</button></div></div></div><div id="olhCalendarAlert" class="timed-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="olhCalendarAlertHeading" aria-describedby="olhCalendarAlertMessage">
+ <div class="timed-alert">
+  <div class="timed-bell">♡ 📅 ♡</div>
+  <h2 id="olhCalendarAlertHeading">Coming up tomorrow</h2>
+  <div class="timed-message" id="olhCalendarAlertMessage"></div>
+  <div class="timed-when" id="olhCalendarAlertWhen"></div>
+  <div class="timed-alert-actions">
+   <button type="button" onclick="olhSnoozeCalendarAlert()">Snooze 10 min</button>
+   <button type="button" class="timed-done" onclick="olhDismissCalendarAlert()">Got it ✓</button>
+  </div>
+ </div>
+</div><div class="googlebar" id="googleStatus">Google Calendar, Tasks &amp; Photos: not connected</div><div class="footer">A home filled with little moments is a beautiful home · <a href="https://open-meteo.com/" style="color:inherit">Weather by Open-Meteo</a></div><div id="olhVoiceDialog" class="dialog" role="dialog" aria-modal="true" aria-label="Add item by voice"><div class="modal"><h2>🎤 Add by voice</h2><p class="mini" id="olhVoiceStatus">Say “Add milk to shopping list” or “Add water the plants to my to-do list.”</p><label for="olhVoiceText">Item to add</label><input id="olhVoiceText" type="text" maxlength="255" placeholder="Milk"/><label for="olhVoiceKind">Add to</label><select id="olhVoiceKind"><option value="shopping">Shopping List</option><option value="reminders">To Do List</option></select><div class="buttons"><button type="button" onclick="olhVoiceClose()">Cancel</button><button type="button" id="olhVoiceConfirm" onclick="olhVoiceConfirm()">Add to Google Tasks</button></div></div></div><div class="dialog" id="googleDialog"><div class="modal"><h2>Connect Google</h2><p class="mini">Host this HTML on HTTPS (for example GitHub Pages), enable Google Calendar API, Google Tasks API and Google Photos Picker API, and enter your OAuth web Client ID. No client secret is needed.</p><label for="googleClientId">Google OAuth Client ID</label><input id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com"/><div class="buttons"><button onclick="closeGoogleSettings()">Close</button><button onclick="saveGoogleSettings()">Save</button></div></div></div><div class="dialog" id="dialog"><div class="modal"><h2 id="eventHeading">Add an event</h2><label for="eventDate">Date</label><input id="eventDate" type="date"/><label for="eventText">Event or reminder</label><input id="eventText" maxlength="90" placeholder="e.g. Dinner with family" type="text"/><div id="eventList"></div><div class="buttons"><button onclick="closeDialog()">Close</button><button onclick="addEvent()" style="background:#778778;color:white">Save event</button></div></div></div><script>
 (function(){'use strict';var prefix='creamhome_v1_',events={},photos=[],photoIndex=0,view=new Date();view.setDate(1);function read(k,def){try{var x=localStorage.getItem(prefix+k);return x?JSON.parse(x):def}catch(e){return def}}function save(k,x){try{localStorage.setItem(prefix+k,JSON.stringify(x));return true}catch(e){alert('Storage is full. Please remove some photos or back up your data.');return false}}events=read('events',{});photos=read('photos',[]);document.getElementById('notes').value=read('notes','');document.getElementById('shopping').value=read('shopping','');window.saveText=function(id){save(id,document.getElementById(id).value)};function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}/* US federal holidays, including observed weekday dates. Work schedules may differ. */
 function olhNthWeekday(year,month,weekday,n){var first=new Date(year,month,1),offset=(weekday-first.getDay()+7)%7;return new Date(year,month,1+offset+7*(n-1))}
 function olhLastWeekday(year,month,weekday){var last=new Date(year,month+1,0);return new Date(year,month,last.getDate()-(last.getDay()-weekday+7)%7)}
@@ -683,6 +694,7 @@ window.refreshGoogleCalendar=async function(){
    total++;
   });
   if(window.redrawDashboardCalendar)window.redrawDashboardCalendar();
+  if(window.olhCalendarAlertScan)window.olhCalendarAlertScan();
   if(failures.length){message('Google Calendar: '+total+' events from '+(calendars.length-failures.length)+' calendars; '+failures.length+' error(s): '+failures[0]);}
   else {message('Google Calendar: '+total+' events loaded from '+calendars.length+' calendar(s), '+start.toLocaleDateString()+' – '+end.toLocaleDateString());}
  }catch(e){err(e)}
@@ -1161,7 +1173,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  var lastAction=Date.now();
 
  function hasOpenReminder(){
-   return !!document.querySelector('#timedReminderAlert.open, #timedReminderEditor.open, .dialog.open');
+   return !!document.querySelector('#timedReminderAlert.open, #olhCalendarAlert.open, #timedReminderEditor.open, .dialog.open');
  }
  function refreshPainting(){
    var url=galleryImage.getAttribute('src');
@@ -1275,4 +1287,125 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  };
 })();
 </script>
+
+<script>
+/* On-screen Google Calendar alerts.
+   Timed events: 24 hours and 1 hour before.
+   All-day events: 9 AM one day before, and 8 AM on event day.
+   Only visible when the dashboard is running, never Android system notifications. */
+(function(){
+  'use strict';
+  var STORE='olh_google_calendar_alerts_v1';
+  var DAY=86400000, HOUR=3600000;
+  var seen={}, current=null, queue=[];
+  var popup=document.getElementById('olhCalendarAlert');
+  function read(){
+    try{
+      var stored=JSON.parse(localStorage.getItem(STORE)||'{}');
+      return stored && typeof stored==='object' && !Array.isArray(stored)?stored:{};
+    }catch(e){return {};}
+  }
+  seen=read();
+  function save(){
+    try{localStorage.setItem(STORE,JSON.stringify(seen));}catch(e){console.warn('Calendar alert history not saved',e);}
+  }
+  function formatted(when,allDay){
+    return new Date(when).toLocaleString(undefined,allDay?
+      {weekday:'long',month:'short',day:'numeric',year:'numeric'}:
+      {weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  }
+  function eventStart(event){
+    var obj=event.start||{};
+    if(obj.dateTime){
+      var t=new Date(obj.dateTime).getTime();
+      return Number.isFinite(t)?{time:t,allDay:false}:null;
+    }
+    if(obj.date){
+      // Parse date-only values as local dates, not UTC; don't shift calendar dates.
+      var parts=obj.date.split('-').map(Number);
+      if(parts.length!==3)return null;
+      var date=new Date(parts[0],parts[1]-1,parts[2],0,0,0,0);
+      return {time:date.getTime(),allDay:true,parts:parts};
+    }
+    return null;
+  }
+  function collect(){
+    var map=window.googleEventsByDate;
+    if(!window.googleCalendarConnected||!map)return [];
+    var now=Date.now(),out=[],unique=new Set();
+    Object.keys(map).forEach(function(day){
+      (map[day]||[]).forEach(function(event){
+        if(!event||event.status==='cancelled'||event.transparency==='transparent')return;
+        if(event.extendedProperties&&event.extendedProperties.private&&event.extendedProperties.private.olhMealKey)return;
+        var summary=String(event.summary||'Calendar event');
+        if(/^🍽/.test(summary))return; // Keep the synced food planner from generating constant alerts.
+        var start=eventStart(event);
+        if(!start)return;
+        var base=[event._dashboardCalendarId||'primary',event.id||summary,start.time].join('::');
+        if(unique.has(base))return;
+        unique.add(base);
+        var stages=[];
+        if(start.allDay){
+          var p=start.parts;
+          stages=[
+            {name:'day',trigger:new Date(p[0],p[1]-1,p[2]-1,9).getTime(),heading:'Coming up tomorrow'},
+            {name:'hour',trigger:new Date(p[0],p[1]-1,p[2],8).getTime(),heading:'Happening today'}
+          ];
+        }else{
+          stages=[
+            {name:'day',trigger:start.time-DAY,heading:'Coming up tomorrow'},
+            {name:'hour',trigger:start.time-HOUR,heading:'Coming up in one hour'}
+          ];
+        }
+        stages.forEach(function(stage){
+          var id=base+'::'+stage.name;
+          var entry=seen[id]||{};
+          if(entry.done)return;
+          if(stage.trigger>now)return;
+          // Only show alerts while relevant. A fresh visit catches recently missed alerts.
+          var latest=start.allDay ?
+             (stage.name==='day'?start.time:start.time+DAY) :
+             (stage.name==='day'?start.time-HOUR:start.time);
+          if(now>latest)return;
+          if(entry.snoozeUntil&&entry.snoozeUntil>now)return;
+          out.push({id:id,summary:summary,time:start.time,allDay:start.allDay,
+                    trigger:stage.trigger,heading:stage.heading});
+        });
+      });
+    });
+    return out.sort(function(a,b){return a.trigger-b.trigger;});
+  }
+  function showNext(){
+    if(current||popup.classList.contains('open'))return;
+    if(document.querySelector('#timedReminderAlert.open, #timedReminderEditor.open, #googleDialog.open, #dialog.open, #olhVoiceDialog.open'))return;
+    queue=collect();
+    if(!queue.length)return;
+    current=queue[0];
+    document.getElementById('olhCalendarAlertHeading').textContent=current.heading;
+    document.getElementById('olhCalendarAlertMessage').textContent=current.summary;
+    document.getElementById('olhCalendarAlertWhen').textContent='Google Calendar · '+formatted(current.time,current.allDay);
+    popup.classList.add('open');
+  }
+  window.olhCalendarAlertScan=function(){showNext();};
+  window.olhDismissCalendarAlert=function(){
+    if(current){seen[current.id]={done:true};save();}
+    current=null;popup.classList.remove('open');showNext();
+  };
+  window.olhSnoozeCalendarAlert=function(){
+    if(current){seen[current.id]={snoozeUntil:Date.now()+10*60000};save();}
+    current=null;popup.classList.remove('open');showNext();
+  };
+  // Dismiss expired history to keep tablet storage small.
+  Object.keys(seen).forEach(function(k){
+    var match=k.match(/::(\d{13})::(?:day|hour)$/);
+    if(match&&Date.now()-Number(match[1])>35*DAY)delete seen[k];
+  });
+  save();
+  setInterval(showNext,15000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)showNext();});
+  window.addEventListener('focus',showNext);
+  showNext();
+})();
+</script>
+
 </body></html>
