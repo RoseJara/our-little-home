@@ -1044,7 +1044,7 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  }
  window.olhChangeWeek=function(change){weekOffset=change===0?0:weekOffset+change;renderWeek()};
  function stopArt(){if(artTimer!==null){clearInterval(artTimer);artTimer=null}}
- function startArt(){stopArt();artTimer=setInterval(function(){if(page===2&&paintings.length>1)olhArtMove(1)},15000)}
+ function startArt(){stopArt();artTimer=setInterval(function(){if(page===2&&paintings.length>1)olhArtMove(1)},60000)}
  function showArt(){
    if(!paintings.length)return;
    var item=paintings[artIndex],img=document.getElementById('olhArtImage');
