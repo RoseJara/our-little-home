@@ -979,4 +979,112 @@ if(clientId)message('Google setup saved · Tap Connect Google');
  positionPages();
 })();
 </script>
+
+<style>
+/* Full-screen idle painting. No changes to the three existing page sizes. */
+#olhIdleArt {
+  position:fixed; inset:0; z-index:11;
+  background:#1f2422; display:none; overflow:hidden;
+  align-items:center; justify-content:center; cursor:pointer;
+}
+#olhIdleArt.olh-idle-visible{display:flex}
+#olhIdleArt img{
+  position:relative; z-index:1; display:none;
+  max-width:100%;max-height:100%;width:100%;height:100%;
+  object-fit:contain;
+}
+#olhIdleArt img.olh-loaded{display:block}
+#olhIdleArt .olh-idle-hint{
+  position:absolute;z-index:2;bottom:16px;left:50%;
+  transform:translateX(-50%);padding:6px 14px;
+  border-radius:22px;color:#fffaf1;background:rgba(0,0,0,.26);
+  font:12px Arial, sans-serif;text-align:center;pointer-events:none;
+}
+#olhIdleArt .olh-idle-wait{
+  color:#fffaf1;font:italic 26px Georgia,serif;text-align:center;padding:25px;
+}
+</style>
+<div id="olhIdleArt" role="button" aria-label="Tap to return to Our Little Home" tabindex="0">
+ <div class="olh-idle-wait" id="olhIdleWait">A quiet moment with art</div>
+ <img id="olhIdleImage" alt="Landscape painting" />
+ <div class="olh-idle-hint">Touch anywhere for Our Little Home ♡</div>
+</div>
+<script>
+/* Screensaver: after 2 min without interaction, show fullscreen paintings.
+   Any tap on the paintings returns to the Home dashboard and restarts the timer.
+   The separate Food Planner and Painting Gallery are retained. */
+(function(){
+ 'use strict';
+ var IDLE_MS=120000;
+ var overlay=document.getElementById('olhIdleArt');
+ var image=document.getElementById('olhIdleImage');
+ var wait=document.getElementById('olhIdleWait');
+ var galleryImage=document.getElementById('olhArtImage');
+ var idleTimer=null;
+ var lastAction=Date.now();
+
+ function hasOpenReminder(){
+   return !!document.querySelector('#timedReminderAlert.open, #timedReminderEditor.open, .dialog.open');
+ }
+ function refreshPainting(){
+   var url=galleryImage.getAttribute('src');
+   if(!url)return;
+   if(image.getAttribute('src')!==url){
+     image.classList.remove('olh-loaded');
+     wait.style.display='block';
+     image.src=url;
+   }
+ }
+ image.onload=function(){image.classList.add('olh-loaded');wait.style.display='none';};
+ image.onerror=function(){
+   image.classList.remove('olh-loaded');
+   wait.style.display='block';
+   wait.textContent='Artwork will appear when the gallery loads';
+ };
+ new MutationObserver(refreshPainting).observe(galleryImage,{attributes:true,attributeFilter:['src']});
+ function showArt(){
+   if(Date.now()-lastAction<IDLE_MS||hasOpenReminder())return;
+   if(!overlay.classList.contains('olh-idle-visible')){
+     window.olhSetPage(2); // Existing art gallery loads and advances paintings.
+     refreshPainting();
+     overlay.classList.add('olh-idle-visible');
+   }
+ }
+ function schedule(){
+   if(idleTimer!==null)clearTimeout(idleTimer);
+   idleTimer=setTimeout(showArt,Math.max(100,IDLE_MS-(Date.now()-lastAction)));
+ }
+ function activity(){
+   if(overlay.classList.contains('olh-idle-visible'))return;
+   lastAction=Date.now();schedule();
+ }
+ function goHome(ev){
+   if(ev){ev.preventDefault();ev.stopPropagation();}
+   overlay.classList.remove('olh-idle-visible');
+   window.olhSetPage(0);
+   lastAction=Date.now();schedule();
+ }
+ overlay.addEventListener('touchstart',goHome,{passive:false});
+ overlay.addEventListener('touchend',function(e){e.stopPropagation()},{passive:true});
+ overlay.addEventListener('click',goHome);
+ overlay.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')goHome(e)});
+ ['touchstart','pointerdown','mousedown','keydown','input','wheel'].forEach(function(name){
+   document.addEventListener(name,activity,{passive:true,capture:true});
+ });
+ document.addEventListener('visibilitychange',function(){
+   if(!document.hidden){
+     if(hasOpenReminder()){lastAction=Date.now();schedule();}
+     else if(Date.now()-lastAction>=IDLE_MS)showArt();
+     else schedule();
+   }
+ });
+ // A due reminder overrides paintings instead of being hidden by the screensaver.
+ setInterval(function(){
+   if(overlay.classList.contains('olh-idle-visible')&&hasOpenReminder())goHome();
+   else if(!overlay.classList.contains('olh-idle-visible')&&Date.now()-lastAction>=IDLE_MS)showArt();
+ },1000);
+ schedule();
+})();
+</script>
+
 </body></html>
