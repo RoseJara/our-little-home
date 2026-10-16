@@ -942,18 +942,30 @@ if(clientId)message('Google setup saved · Tap Connect Google');
    if(paintings.length){showArt();return}
    if(artLoading)return;
    artLoading=true;
-   // The Art Institute of Chicago provides public-domain collection metadata and images.
-   fetch('https://api.artic.edu/api/v1/artworks/search?q=painting&fields=id,title,artist_title,image_id,is_public_domain&limit=100')
-    .then(function(r){if(!r.ok)throw Error('Artwork request failed');return r.json()})
-    .then(function(result){
-      paintings=(result.data||[]).filter(function(x){return x.image_id&&x.is_public_domain===true});
-      if(!paintings.length)throw Error('No public-domain paintings found');
-      // Show a varied order on every new load.
+   // Select only calm, public-domain landscape subjects from the Art Institute of Chicago.
+   // Screening titles helps exclude unsettling scenes; it cannot guarantee every image's mood.
+   var themes=['landscape','water lilies','garden','river'];
+   var fields='id,title,artist_title,image_id,is_public_domain,artwork_type_title';
+   var exclude=/battle|war|death|dead|corpse|murder|blood|storm|shipwreck|fire|hell|skull|nightmare|horror|tragedy|crucifix|execution|violence|hunting|hunt|disaster|apocalypse|devil|demon|grave|mourning|funeral|ruins|tornado|volcano|flood|suffering|wreck/i;
+   var scenic=/landscape|garden|water lil|pond|river|lake|mountain|countryside|meadow|flowers?|orchard|sunset|sunrise|spring|summer|autumn|woods|forest|village|valley|seashore|coast|sea view|harbor|harbour|field|bridge|trees?|pastoral|garden|park|waterfall/i;
+   Promise.all(themes.map(function(theme){
+     var url='https://api.artic.edu/api/v1/artworks/search?q='+encodeURIComponent(theme)+'&fields='+fields+'&limit=100';
+     return fetch(url).then(function(r){if(!r.ok)throw Error('Artwork request failed');return r.json()})
+       .then(function(data){return data.data||[]}).catch(function(){return []});
+   }))
+    .then(function(groups){
+      var seen={};
+      paintings=groups.reduce(function(all,items){return all.concat(items)},[]).filter(function(x){
+        var title=x.title||'';
+        if(!x.image_id||x.is_public_domain!==true||!scenic.test(title)||exclude.test(title)||seen[x.id])return false;
+        seen[x.id]=true;return true;
+      });
+      if(!paintings.length)throw Error('No suitable landscape paintings found');
       paintings.sort(function(a,b){return (a.id*37%101)-(b.id*37%101)});
       artIndex=0;showArt();
     })
     .catch(function(){
-      document.getElementById('olhArtTitle').textContent='Painting collection temporarily unavailable';
+      document.getElementById('olhArtTitle').textContent='Landscape paintings temporarily unavailable';
       document.getElementById('olhArtArtist').textContent='Connect to Wi-Fi and reopen Paintings';
       document.getElementById('olhArtPlaceholder').textContent='A quiet moment with art';
     })
@@ -1004,7 +1016,21 @@ if(clientId)message('Google setup saved · Tap Connect Google');
   color:#fffaf1;font:italic 26px Georgia,serif;text-align:center;padding:25px;
 }
 </style>
-<div id="olhIdleArt" role="button" aria-label="Tap to return to Our Little Home" tabindex="0">
+<style>
+/* Edge-to-edge peaceful landscape screensaver and landscape gallery. */
+#olhIdleArt { background:#dedbd0 !important; }
+#olhIdleArt img {
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+}
+#olhIdleArt .olh-idle-hint { display:none !important; }
+.olh-art-stage img { width:100%;height:100%;object-fit:cover !important;object-position:center center; }
+.olh-art-stage { background:#dedbd0; }
+</style>\n<div id="olhIdleArt" role="button" aria-label="Tap to return to Our Little Home" tabindex="0">
  <div class="olh-idle-wait" id="olhIdleWait">A quiet moment with art</div>
  <img id="olhIdleImage" alt="Landscape painting" />
  <div class="olh-idle-hint">Touch anywhere for Our Little Home ♡</div>
